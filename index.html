@@ -1,0 +1,273 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker de Gravação - Novo Instagram</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Transições suaves */
+        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms; }
+    </style>
+</head>
+<body class="min-h-screen bg-neutral-50 text-neutral-900 p-4 md:p-8 font-sans">
+    <div class="max-w-3xl mx-auto space-y-6">
+        
+        <!-- Header -->
+        <header class="bg-white rounded-2xl shadow-sm border border-neutral-200 p-6">
+            <div class="flex items-center gap-3 text-indigo-600 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                <span class="font-semibold tracking-wide uppercase text-sm">Painel de Gravação</span>
+            </div>
+            <h1 class="text-2xl font-bold text-neutral-900 leading-tight">
+                Guia prático do Novo Instagram para Negócios 2º Semestre 2026
+            </h1>
+            <p class="text-neutral-500 mt-2 text-sm">
+                Posicionamento, semântica, conteúdo e narrativa para negócios que querem ser entendidos pelo algoritmo e reconhecidos pelo público.
+            </p>
+
+            <!-- Progress Bar -->
+            <div class="mt-6">
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-sm font-medium text-neutral-700">Progresso Geral</span>
+                    <span id="progress-text" class="text-2xl font-bold text-indigo-600">0%</span>
+                </div>
+                <div class="w-full bg-neutral-100 rounded-full h-3 overflow-hidden border border-neutral-200">
+                    <div id="progress-bar" class="bg-indigo-600 h-3 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                </div>
+                <p id="progress-count" class="text-xs text-neutral-500 mt-2">
+                    0 de 0 tópicos gravados
+                </p>
+            </div>
+        </header>
+
+        <!-- Mensagem de Conclusão -->
+        <div id="congrats-message" class="hidden bg-green-50 border border-green-200 text-green-800 rounded-xl p-4 items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            <p class="font-medium">Parabéns! Você concluiu a gravação de todos os módulos.</p>
+        </div>
+
+        <!-- Lista de Módulos -->
+        <div id="modules-container" class="space-y-4">
+            <!-- Os módulos serão injetados aqui pelo JavaScript -->
+        </div>
+
+    </div>
+
+    <script>
+        const courseData = [
+            {
+                moduleId: 1,
+                title: "1. O que mudou no Instagram",
+                items: [
+                    { id: "1.1", text: "Explicar a transição de rede de seguidores para plataforma de recomendação, descoberta e leitura de interesses." }
+                ]
+            },
+            {
+                moduleId: 2,
+                title: "2. O novo papel do algoritmo",
+                items: [
+                    { id: "2.1", text: "O Instagram tenta entender o conteúdo" },
+                    { id: "2.2", text: "Tenta entender para quem aquilo faz sentido" },
+                    { id: "2.3", text: "Testa sinais de interesse" },
+                    { id: "2.4", text: "Distribui conforme relevância percebida (Meta AI)" }
+                ]
+            },
+            {
+                moduleId: 3,
+                title: "3. Semântica",
+                items: [
+                    { id: "3.1", text: "O que é semântica" },
+                    { id: "3.2", text: "Como palavras, imagens, temas, legendas e contexto se conectam" },
+                    { id: "3.3", text: "Por que postar coisas desconectadas confunde o perfil" },
+                    { id: "3.4", text: "Como repetir território de assunto ajuda a conta" }
+                ]
+            },
+            {
+                moduleId: 4,
+                title: "4. Posicionamento",
+                items: [
+                    { id: "4.1", text: "Quem é você" },
+                    { id: "4.2", text: "O que você resolve" },
+                    { id: "4.3", text: "Para quem você fala" },
+                    { id: "4.4", text: "Qual transformação você entrega" },
+                    { id: "4.5", text: "Qual território você quer ocupar" }
+                ]
+            },
+            {
+                moduleId: 5,
+                title: "5. Público, seguidor e audiência",
+                items: [
+                    { id: "5.1", text: "Seguidor: número" },
+                    { id: "5.2", text: "Público: grupo que você quer atrair" },
+                    { id: "5.3", text: "Audiência: pessoas que prestam atenção e interagem" }
+                ]
+            },
+            {
+                moduleId: 6,
+                title: "6. Os três pilares",
+                items: [
+                    { id: "6.1", text: "Autoridade percebida" },
+                    { id: "6.2", text: "Conexão genuína" },
+                    { id: "6.3", text: "Confiança" }
+                ]
+            },
+            {
+                moduleId: 7,
+                title: "7. Estratégia de conteúdo",
+                items: [
+                    { id: "7.1", text: "Conteúdo que posiciona" },
+                    { id: "7.2", text: "Conteúdo que educa" },
+                    { id: "7.3", text: "Conteúdo que prova" },
+                    { id: "7.4", text: "Conteúdo que aproxima" },
+                    { id: "7.5", text: "Conteúdo que direciona para venda" }
+                ]
+            },
+            {
+                moduleId: 8,
+                title: "8. Narrativas",
+                items: [
+                    { id: "8.1", text: "Mostrar que não é apenas 'postar dica'" },
+                    { id: "8.2", text: "Como construir uma linha de pensamento focada no problema do cliente" }
+                ]
+            },
+            {
+                moduleId: 9,
+                title: "9. Métricas que importam",
+                items: [
+                    { id: "9.1", text: "Salvamentos" },
+                    { id: "9.2", text: "Compartilhamentos" },
+                    { id: "9.3", text: "Respostas" },
+                    { id: "9.4", text: "Mensagens" },
+                    { id: "9.5", text: "Retenção" },
+                    { id: "9.6", text: "Visitas ao perfil" },
+                    { id: "9.7", text: "Cliques" },
+                    { id: "9.8", text: "Alcance qualificado" },
+                    { id: "9.9", text: "Conversas iniciadas" }
+                ]
+            },
+            {
+                moduleId: 10,
+                title: "10. Checklist prático",
+                items: [
+                    { id: "10.1", text: "Checklist de perfil" },
+                    { id: "10.2", text: "Checklist de bio" },
+                    { id: "10.3", text: "Checklist de conteúdo" },
+                    { id: "10.4", text: "Checklist semântico" },
+                    { id: "10.5", text: "Checklist de narrativa" },
+                    { id: "10.6", text: "Checklist de métrica" }
+                ]
+            }
+        ];
+
+        let completedItems = new Set();
+        let expandedModules = new Set(courseData.map(m => m.moduleId));
+
+        // SVGs Reutilizáveis
+        const icons = {
+            check: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-500"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+            checkItem: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+            circle: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-300"><circle cx="12" cy="12" r="10"/></svg>`,
+            chevronDown: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400"><path d="m6 9 6 6 6-6"/></svg>`,
+            chevronUp: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400"><path d="m18 15-6-6-6 6"/></svg>`
+        };
+
+        function render() {
+            const total = courseData.reduce((acc, mod) => acc + mod.items.length, 0);
+            const completed = completedItems.size;
+            const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+            // Atualiza Header
+            document.getElementById('progress-text').innerText = `${percentage}%`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-count').innerText = `${completed} de ${total} tópicos gravados`;
+
+            const congratsDiv = document.getElementById('congrats-message');
+            if (percentage === 100) {
+                congratsDiv.classList.remove('hidden');
+                congratsDiv.classList.add('flex');
+            } else {
+                congratsDiv.classList.add('hidden');
+                congratsDiv.classList.remove('flex');
+            }
+
+            // Atualiza Módulos
+            const modulesContainer = document.getElementById('modules-container');
+            
+            const html = courseData.map(module => {
+                const isExpanded = expandedModules.has(module.moduleId);
+                const moduleCompletedItems = module.items.filter(item => completedItems.has(item.id)).length;
+                const isModuleDone = moduleCompletedItems === module.items.length;
+
+                const moduleIcon = isModuleDone 
+                    ? icons.check 
+                    : `<div class="w-5 h-5 rounded-full border-2 border-neutral-300 flex items-center justify-center"><span class="text-[10px] font-bold text-neutral-400">${moduleCompletedItems}</span></div>`;
+
+                const chevron = isExpanded ? icons.chevronUp : icons.chevronDown;
+
+                let itemsHtml = '';
+                if (isExpanded) {
+                    itemsHtml = `
+                        <div class="border-t border-neutral-100 bg-neutral-50/50">
+                            ${module.items.map(item => {
+                                const isChecked = completedItems.has(item.id);
+                                return `
+                                    <div onclick="toggleItem('${item.id}')" class="flex items-start gap-3 p-4 border-b border-neutral-100 last:border-0 hover:bg-neutral-100 cursor-pointer transition-colors">
+                                        <div class="mt-0.5 flex-shrink-0">
+                                            ${isChecked ? icons.checkItem : icons.circle}
+                                        </div>
+                                        <span class="text-sm md:text-base ${isChecked ? 'text-neutral-400 line-through' : 'text-neutral-700'}">
+                                            ${item.text}
+                                        </span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                        <button onclick="toggleModule(${module.moduleId})" class="w-full px-5 py-4 flex items-center justify-between hover:bg-neutral-50 transition-colors">
+                            <div class="flex items-center gap-3 text-left">
+                                <div class="flex-shrink-0">${moduleIcon}</div>
+                                <h2 class="font-semibold ${isModuleDone ? 'text-neutral-500 line-through' : 'text-neutral-800'}">${module.title}</h2>
+                            </div>
+                            ${chevron}
+                        </button>
+                        ${itemsHtml}
+                    </div>
+                `;
+            }).join('');
+
+            modulesContainer.innerHTML = html;
+        }
+
+        // Funções Globais chamadas pelo onclick
+        window.toggleItem = function(itemId) {
+            if (completedItems.has(itemId)) {
+                completedItems.delete(itemId);
+            } else {
+                completedItems.add(itemId);
+            }
+            render();
+        };
+
+        window.toggleModule = function(moduleId) {
+            if (expandedModules.has(moduleId)) {
+                expandedModules.delete(moduleId);
+            } else {
+                expandedModules.add(moduleId);
+            }
+            render();
+        };
+
+        // Renderização Inicial
+        document.addEventListener('DOMContentLoaded', render);
+
+    </script>
+</body>
+</html>
+
+```
